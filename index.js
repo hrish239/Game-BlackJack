@@ -1,13 +1,18 @@
 
 let cards = []
-let card = getRandomCard()
 let sum = 0
 let cardEl= document.getElementById("card-el")
 let sumEl= document.getElementById("sum-el")
-let massageEL = document.getElementById("massage-el")
+let massageEl = document.getElementById("massage-el")
 let hasBlackjack= false
 let isAlive= false
 let massage = " "
+let player = {
+    name:"James",
+    chips: 145
+}
+let playerEl = document.getElementById("player-el")
+playerEl.textContent=player.name + " $"+ player.chips
 
 function getRandomCard(){
    let randomNumber = Math.floor(Math.random()*13)+1
@@ -30,10 +35,11 @@ function startGame(){
 
     renderGame()
 }
+
 function renderGame(){
     cardEl.textContent = "Card: "
-    for(i=0;i<cards.length;i++){
-        cardEl.textContent += card[i] + " "
+    for( let i=0;i<cards.length;i++){
+        cardEl.textContent += cards[i] + " "
     }
     sumEl.textContent = "Sum: " + sum
     if(sum <=20){
@@ -41,17 +47,22 @@ function renderGame(){
     }
     else if(sum===21){
         massage = "BlackJack!!!!"
+        hasBlackjack = true
     }
-    else(sum>21)
+    else if (sum>21)
     {
         massage = "You are out of game."
         isAlive = false
     }
-    massageEL.textContent= massage;
+    massageEl.textContent= massage;
 }
 function newCard(){
-    sum += card
-    PushManager.cards(card)
-    renderGame()
+    if (isAlive ===true && hasBlackjack === false){
+    let card= getRandomCard()
+        sum += card
+       cards.push(card)
+        renderGame()
+    }
+    
 }
 
